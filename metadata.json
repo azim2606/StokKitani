@@ -1,0 +1,6 @@
+{
+  "name": "StokKitani",
+  "description": "Bilingual inventory management system for Brunei SMEs, with stock-in/out tracking, low-stock alerts, and secure authentication.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

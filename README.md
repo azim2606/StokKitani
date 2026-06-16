@@ -1,22 +1,12 @@
 # StokKitani
 
-StokKitani is a bilingual inventory management web app for Brunei SMEs. This submission uses a React frontend, a PHP backend, and PostgreSQL for persistence.
+Inventory management app for Brunei SMEs with a React frontend and a PHP/PostgreSQL backend.
 
-## Stack
+## Current Architecture
 
 - Frontend: React 19 + Vite + Tailwind CSS
-- Backend: PHP 8+
-- Database: PostgreSQL
+- Backend: PHP 8+ REST API
 
-## Features
-
-- Login with seeded admin account
-- Dashboard summary for inventory health
-- Item listing with search, filter, and sort
-- Create, update, and delete inventory items
-- Stock-in and stock-out actions
-- Stock movement audit trail
-- English / Bahasa Melayu toggle
 
 ## Project Structure
 
@@ -36,145 +26,80 @@ StokKitani/
 |   `-- database/
 |       `-- schema.sql
 |-- src/
+|   |-- App.tsx
+|   |-- main.tsx
+|   |-- types.ts
 |   `-- components/
 |-- package.json
-|-- vite.config.ts
-`-- README.md
+`-- vite.config.ts
 ```
 
-## Prerequisites
-
-Please install these before running the project:
-
-- Node.js 18+ with `npm`
-- PHP 8.2+ with `pdo_pgsql` and `pgsql` enabled
-- PostgreSQL 16+ or compatible
-
-## Setup
-
-### 1. Clone and install frontend dependencies
-
-From the project root:
-
-```bash
-npm install
-```
-
-If PowerShell blocks `npm`, use:
-
-```bash
-npm.cmd install
-```
-
-### 2. Create the PostgreSQL database
-
-Create a database named `stokkitani`.
-
-Example with `psql`:
-
-```bash
-createdb -U postgres stokkitani
-```
-
-Or create it manually in pgAdmin.
-
-### 3. Import the schema and seed data
-
-Run:
-
-```bash
-psql -U postgres -d stokkitani -f backend/database/schema.sql
-```
-
-Or in pgAdmin:
-
-1. Open the `stokkitani` database.
-2. Open `Tools` > `Query Tool`.
-3. Paste the contents of [backend/database/schema.sql](/d:/vscode/project%201/StokKitani/backend/database/schema.sql).
-4. Execute the script.
-
-After import, these tables should exist:
+## Database Tables
 
 - `users`
 - `sessions`
 - `items`
 - `stock_movements`
 
-### 4. Configure backend environment
+The schema and seed data live in [backend/database/schema.sql](/d:/vscode/project%201/StokKitani/backend/database/schema.sql).
 
-Create [backend/.env](/d:/vscode/project%201/StokKitani/backend/.env) with:
+## Default Login
 
-```env
-APP_ENV=development
-APP_URL=http://127.0.0.1:8000
-FRONTEND_URL=http://127.0.0.1:5173
-DATABASE_URL=pgsql:host=127.0.0.1;port=5432;dbname=stokkitani
-DATABASE_USER=postgres
-DATABASE_PASSWORD=YOUR_POSTGRES_PASSWORD
+- Email: `admin@stokkitani.com`
+- Password: `password123`
+
+## Local Setup
+
+### 1. Frontend dependencies
+
+Install Node.js dependencies:
+
+```bash
+npm install
 ```
 
-Replace `YOUR_POSTGRES_PASSWORD` with your local PostgreSQL password.
+### 2. PostgreSQL database
 
-## Run Locally
+Create a database, for example `stokkitani`, then load the schema:
 
-You need two terminals.
+```bash
+psql -U postgres -d stokkitani -f backend/database/schema.sql
+```
 
-### Terminal 1: PHP backend
+### 3. Backend configuration
 
-From the project root:
+Copy `backend/.env.example` to `backend/.env` and update:
+
+- `DATABASE_URL`
+- `DATABASE_USER`
+- `DATABASE_PASSWORD`
+- `FRONTEND_URL` if your frontend runs on a different origin
+
+Example DSN:
+
+```env
+DATABASE_URL=pgsql:host=127.0.0.1;port=5432;dbname=stokkitani
+```
+
+### 4. Run the PHP API
+
+Require PHP 8+ with `pdo_pgsql` enabled:
 
 ```bash
 php -S 127.0.0.1:8000 -t backend/public backend/public/router.php
 ```
 
-If `php` is not on your `PATH`, use the full executable path instead.
+### 5. Run the frontend
 
-### Terminal 2: React frontend
-
-From the project root:
+Start Vite:
 
 ```bash
 npm run dev
 ```
 
-If PowerShell blocks `npm`, use:
+Open `http://localhost:5173`.
 
-```bash
-npm.cmd run dev
-```
-
-Then open:
-
-- Frontend: `http://localhost:5173`
-- Backend base URL: `http://127.0.0.1:8000`
-
-## Demo Login
-
-Use the seeded account:
-
-- Email: `admin@stokkitani.com`
-- Password: `password123`
-
-## Quick Verification Checklist
-
-After startup, an interviewer can verify the app with this sequence:
-
-1. Open `http://localhost:5173`
-2. Log in with the seeded account
-3. Confirm the dashboard loads
-4. Open the Items page and verify seeded inventory is visible
-5. Create a new item
-6. Perform a stock-in or stock-out action
-7. Open Stock Movements and confirm a new audit entry appears
-
-To confirm database writes in PostgreSQL:
-
-```sql
-SELECT * FROM users;
-SELECT * FROM sessions ORDER BY id DESC;
-SELECT * FROM items ORDER BY id DESC;
-SELECT * FROM stock_movements ORDER BY id DESC;
-```
+During development, Vite proxies `/api/*` to `http://127.0.0.1:8000` by default. Override that with `VITE_API_URL` if needed.
 
 ## API Endpoints
 
@@ -191,8 +116,5 @@ SELECT * FROM stock_movements ORDER BY id DESC;
 - `POST /api/items/:id/stock-out`
 - `GET /api/stock-movements`
 
-## Notes
 
-- The active runtime path is PHP + PostgreSQL. The old Node backend file is not required to run the current app.
-- Vite proxies `/api/*` requests to `http://127.0.0.1:8000` during local development.
-- If login fails with a connection error, the PHP backend is usually not running.
+

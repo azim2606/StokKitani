@@ -1,161 +1,198 @@
-# StokKitani 📦
-### Simple Inventory Management for Brunei SMEs (Dwi-Bahasa: EN / BM)
+# StokKitani
 
-StokKitani is a bilingual, cloud-ready full-stack inventory management system designed for Brunei small-to-medium enterprises (PKS/SMEs). Built with speed, robustness, and visual fidelity in mind, it simplifies counting catalog stock levels, handles direct inventory increments/decrements (Stock-In & Stock-Out), maintains fully-auditable historical logs, and triggers instant alerts for running low on items.
+StokKitani is a bilingual inventory management web app for Brunei SMEs. This submission uses a React frontend, a PHP backend, and PostgreSQL for persistence.
 
-This project has been developed as a premier interview assessment submission, demonstrating rigorous standard architectures, complete database integrity, dual-language translation overlays, and a premium visual dashboard.
+## Stack
 
----
+- Frontend: React 19 + Vite + Tailwind CSS
+- Backend: PHP 8+
+- Database: PostgreSQL
 
-## 🚀 Key Features
+## Features
 
-* **Bilingual Instant Overlay (EN / BM)**: Simple, zero-dependency toggle between English and Bahasa Melayu (Brunei) to welcome regional workers seamlessly.
-* **Smart Dashboard Analytics**: Real-time KPI summaries for total items cataloged, low stock items, out-of-stock items, and total cumulative asset valuation in BND (Brunei Dollars).
-* **Robust REST API Core**: Complete standard REST endpoints representing professional architecture (Create, Read, Update, Delete).
-* **Automatic Audit Logging & Stock-In/Out Tracking**: Seamless logging triggers every time stock flows in or out of the warehouse, capturing item, quantity change, and remarks.
-* **Integrity Validation & Checks**: Enforces zero-negative-bounds on price parameters, protects SKU uniqueness constraints, and blocks stock-outs that would cause negative quantities.
-* **Modern Brunei Premium UI**: Refined typography, custom warning/info status tags, clean whitespace distribution, soft shadows, and card templates using the brand colors:
-  * Brand Dark (`#111827`)
-  * Brand Gold (`#C9A227`)
-  * Warm Sand App Canvas (`#F8F6F1`)
+- Login with seeded admin account
+- Dashboard summary for inventory health
+- Item listing with search, filter, and sort
+- Create, update, and delete inventory items
+- Stock-in and stock-out actions
+- Stock movement audit trail
+- English / Bahasa Melayu toggle
 
----
-
-## 🛠️ Stack Architecture
-
-* **Backend Engine**: Node.js / Express (TypeScript) serving as a high-speed HTTP router.
-* **Frontend View**: React 19 (Vite) + Lucide Icons + Motion Layout Transitions.
-* **Styling Framework**: Tailwind CSS v4 featuring responsive boundaries, smooth grid structures, and professional touch-targets.
-* **Security & Auth**: Session-Token handshake with secure PBKDF2/SHA-256 password hashing.
-* **Database Persistency**: Robust, transaction-safe JSON storage writing atomically on-disk to `data.json` to guarantee data persistence between starts.
-
----
-
-## 📂 Project Structure
+## Project Structure
 
 ```text
 StokKitani/
-├── server.ts              # Express API Server and Persistent JSON-DB orchestration
-├── src/
-│   ├── main.tsx           # Client entry points
-│   ├── App.tsx            # Main parent state manager, routers and API integrations
-│   ├── types.ts           # Shared TS Models, mappings & bilingual dictionaries
-│   ├── index.css          # Tailwind CSS v4 custom color themes and imports
-│   └── components/        # Isolated UI presentation chunks
-│       ├── Navbar.tsx             # Global headers & language togglers
-│       ├── LoginView.tsx          # Split screen layout containing demo hints
-│       ├── DashboardView.tsx      # Stat counters, banners & recent movements logs 
-│       ├── ItemsView.tsx          # Dynamic table grid (search, sort, filter)
-│       ├── ItemModal.tsx          # Catalog creation & update parameters editor
-│       └── StockActionModal.tsx   # Stock-in/out form (qty limits & notes fields)
-├── package.json           # Build, dev & production compilation configuration
-├── tsconfig.json          # TypeScript compilations setups
-└── README.md              # Technical presentation layout (This file)
+|-- backend/
+|   |-- public/
+|   |   |-- index.php
+|   |   `-- router.php
+|   |-- src/
+|   |   |-- Api.php
+|   |   |-- Database.php
+|   |   |-- HttpException.php
+|   |   |-- Request.php
+|   |   |-- Response.php
+|   |   `-- bootstrap.php
+|   `-- database/
+|       `-- schema.sql
+|-- src/
+|   `-- components/
+|-- package.json
+|-- vite.config.ts
+`-- README.md
 ```
 
----
+## Prerequisites
 
-## 📋 Logical Database Schema Overview
+Please install these before running the project:
 
-Although represented in transactional JSON for Cloud Run container portability, StokKitani models the PostgreSQL layout requested in the assessment:
+- Node.js 18+ with `npm`
+- PHP 8.2+ with `pdo_pgsql` and `pgsql` enabled
+- PostgreSQL 16+ or compatible
 
-### Table: `users`
-* `id` (SERIAL PRIMARY KEY)
-* `name` (VARCHAR)
-* `email` (VARCHAR, UNIQUE)
-* `password_hash` (TEXT)
-* `created_at` (TIMESTAMP)
+## Setup
 
-### Table: `items`
-* `id` (SERIAL PRIMARY KEY)
-* `name` (VARCHAR)
-* `description` (TEXT)
-* `sku` (VARCHAR, UNIQUE)
-* `category` (VARCHAR)
-* `quantity` (INTEGER DEFAULT 0) - *Checked to be ≥ 0*
-* `minimum_stock` (INTEGER DEFAULT 0) - *Checked to be ≥ 0*
-* `price` (NUMERIC DEFAULT 0) - *Checked to be ≥ 0*
-* `cost_price` (NUMERIC DEFAULT 0) - *Checked to be ≥ 0*
-* `location` (VARCHAR)
-* `created_at` (TIMESTAMP)
-* `updated_at` (TIMESTAMP)
+### 1. Clone and install frontend dependencies
 
-### Table: `stock_movements`
-* `id` (SERIAL PRIMARY KEY)
-* `item_id` (INTEGER, REFERENCES items.id)
-* `type` (VARCHAR) - *Checked to be either 'stock_in' or 'stock_out'*
-* `quantity` (INTEGER) - *Checked to be > 0*
-* `remarks` (TEXT)
-* `created_at` (TIMESTAMP)
+From the project root:
 
----
+```bash
+npm install
+```
 
-## 🗺️ API Endpoint Mappings
+If PowerShell blocks `npm`, use:
 
-### 🔐 Authentication
-* `POST /api/login` - Validates credentials. Returns custom Token & Session details.
-* `POST /api/logout` - Terminates active session.
+```bash
+npm.cmd install
+```
 
-### 📊 Dashboard
-* `GET /api/dashboard/summary` - Dynamically calculates aggregate metadata and retrieves the 6 most recent movements.
+### 2. Create the PostgreSQL database
 
-### 📦 Inventory Catalog
-* `GET /api/items` - Fetches items. Supports:
-  * Searching: `?search=A4` (filters SKU, name, room description, location)
-  * Filtering: `?category=Stationery` & `?status=low_stock`
-  * Sorting: `?sort=quantity` or `?sort=price` (all in BND)
-* `POST /api/items` - Creates item. Enforces unique SKU checks and logs a movement.
-* `GET /api/items/:id` - Retrieves detailed specifications of a single item.
-* `PUT /api/items/:id` - Modifies parameters (such as minimum thresholds, prices).
-* `DELETE /api/items/:id` - Deletes catalog item and wipes its historical movement log to ensure cascading consistency.
+Create a database named `stokkitani`.
 
-### 🔄 Stock audit
-* `POST /api/items/:id/stock-in` - Increases item stock level and records action.
-* `POST /api/items/:id/stock-out` - Decreases stock level if balance is sufficient, else throws a `400 Bad Request`.
-* `GET /api/stock-movements` - Fetches complete descending audit trail.
+Example with `psql`:
 
----
+```bash
+createdb -U postgres stokkitani
+```
 
-## 🔑 Demo Account Login
+Or create it manually in pgAdmin.
 
-For instant evaluation, the database auto-seeds a default admin account on startup:
+### 3. Import the schema and seed data
 
-* **Email**: `admin@stokkitani.com`
-* **Password**: `password123`
+Run:
 
----
+```bash
+psql -U postgres -d stokkitani -f backend/database/schema.sql
+```
 
-## 🏃 Setup & Run Locally
+Or in pgAdmin:
 
-### Approach 1: Native Node.js Setup
-1. Ensure **Node.js v18+** is installed on your local machine.
-2. Unpack the files, move into the directory, and install dependencies:
-   ```bash
-   npm install
-   ```
-3. Boot the full-stack system in development mode:
-   ```bash
-   npm run dev
-   ```
-4. Open [http://localhost:3000](http://localhost:3000) in your web browser.
+1. Open the `stokkitani` database.
+2. Open `Tools` > `Query Tool`.
+3. Paste the contents of [backend/database/schema.sql](/d:/vscode/project%201/StokKitani/backend/database/schema.sql).
+4. Execute the script.
 
-### Approach 2: Building Production Outputs
-1. Compiles the front-end Vite resources and bundles the backend server into optimized production formats inside `dist/`:
-   ```bash
-   npm run build
-   ```
-2. Start the output production server:
-   ```bash
-   npm run start
-   ```
+After import, these tables should exist:
 
----
+- `users`
+- `sessions`
+- `items`
+- `stock_movements`
 
-## 🤝 Interview Presentation Angle
+### 4. Configure backend environment
 
-When presenting **StokKitani** to the interview panel, emphasize these architectural and business decisions:
+Create [backend/.env](/d:/vscode/project%201/StokKitani/backend/.env) with:
 
-1. **Focus on Local Business Realism**: Built as a dwi-bahasa (English/Bahasa Melayu) system because real retail and storeroom administrative personnel in Brunei benefit extensively from simple terminology switching.
-2. **Speed and Efficiency**: Developed with lightweight, high-performance TypeScript and Node.js. It avoids unnecessary framework boilerplate, starting instantly and updating database actions on and off disk atomically with zero overhead.
-3. **Robust Safety Constraints**: It isn't just basic CRUD. All inputs are strictly type-validated, prices cannot drop below zero, SKU constraints prevent duplicate record naming conflicts, and stock-outs are locked whenever they exceed available stock. This represents deep understanding of reliable production systems engineering.
-4. **Brunei Premium Identity**: Designed with an elegant layout (combining Slate `#111827` and Gold `#C9A227` colors on warm backgrounds) that avoids looking like a standard blue bootstrap template. It makes StokKitani immediately feel customized, specialized, and professionally crafted.
+```env
+APP_ENV=development
+APP_URL=http://127.0.0.1:8000
+FRONTEND_URL=http://127.0.0.1:5173
+DATABASE_URL=pgsql:host=127.0.0.1;port=5432;dbname=stokkitani
+DATABASE_USER=postgres
+DATABASE_PASSWORD=YOUR_POSTGRES_PASSWORD
+```
+
+Replace `YOUR_POSTGRES_PASSWORD` with your local PostgreSQL password.
+
+## Run Locally
+
+You need two terminals.
+
+### Terminal 1: PHP backend
+
+From the project root:
+
+```bash
+php -S 127.0.0.1:8000 -t backend/public backend/public/router.php
+```
+
+If `php` is not on your `PATH`, use the full executable path instead.
+
+### Terminal 2: React frontend
+
+From the project root:
+
+```bash
+npm run dev
+```
+
+If PowerShell blocks `npm`, use:
+
+```bash
+npm.cmd run dev
+```
+
+Then open:
+
+- Frontend: `http://localhost:5173`
+- Backend base URL: `http://127.0.0.1:8000`
+
+## Demo Login
+
+Use the seeded account:
+
+- Email: `admin@stokkitani.com`
+- Password: `password123`
+
+## Quick Verification Checklist
+
+After startup, an interviewer can verify the app with this sequence:
+
+1. Open `http://localhost:5173`
+2. Log in with the seeded account
+3. Confirm the dashboard loads
+4. Open the Items page and verify seeded inventory is visible
+5. Create a new item
+6. Perform a stock-in or stock-out action
+7. Open Stock Movements and confirm a new audit entry appears
+
+To confirm database writes in PostgreSQL:
+
+```sql
+SELECT * FROM users;
+SELECT * FROM sessions ORDER BY id DESC;
+SELECT * FROM items ORDER BY id DESC;
+SELECT * FROM stock_movements ORDER BY id DESC;
+```
+
+## API Endpoints
+
+- `POST /api/login`
+- `POST /api/logout`
+- `GET /api/dashboard/summary`
+- `GET /api/items`
+- `POST /api/items`
+- `GET /api/items/:id`
+- `PUT /api/items/:id`
+- `DELETE /api/items/:id`
+- `POST /api/items/bulk-delete`
+- `POST /api/items/:id/stock-in`
+- `POST /api/items/:id/stock-out`
+- `GET /api/stock-movements`
+
+## Notes
+
+- The active runtime path is PHP + PostgreSQL. The old Node backend file is not required to run the current app.
+- Vite proxies `/api/*` requests to `http://127.0.0.1:8000` during local development.
+- If login fails with a connection error, the PHP backend is usually not running.

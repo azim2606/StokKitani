@@ -41,7 +41,6 @@ export interface DashboardSummary {
 
 export type Language = 'en' | 'bm';
 
-// Simple Bilingual translation dictionary for StokKitani
 export const translations = {
   en: {
     appName: 'StokKitani',
@@ -54,17 +53,15 @@ export const translations = {
     en: 'English (EN)',
     bm: 'Bahasa Melayu (BM)',
     
-    // Login
     loginTitle: 'Welcome to StokKitani',
     loginSubtitle: 'Manage stock, monitor movement, and stay prepared with a simple inventory system made for small businesses.',
     email: 'Email Address',
     password: 'Password',
     loginBtn: 'Log In',
     demoAccount: 'Demo Account Credentials',
-    demoNote: 'Please use the credentials below to log in for demonstration:',
+    demoNote: 'Use the credentials below to sign in locally:',
     invalidCredentials: 'Invalid email or password',
     
-    // Dashboard Summary
     summaryTitle: 'Overview',
     jumlahBarang: 'Total Items',
     barangStokRendah: 'Low Stock Items',
@@ -73,7 +70,6 @@ export const translations = {
     recentMovements: 'Recent Stock Movements',
     noRecentMovements: 'No recent stock movements recorded.',
     
-    // Items
     itemsList: 'Inventory List',
     addItem: 'Add New Item',
     editItem: 'Edit Item',
@@ -94,7 +90,6 @@ export const translations = {
     bulkDeleteConfirm: 'Are you sure you want to delete {count} selected items? This action is permanent and will cascade-delete their entire history.',
     selectedItems: '{count} items selected',
     
-    // Table Columns
     sku: 'SKU',
     itemName: 'Item Name',
     category: 'Category',
@@ -106,7 +101,6 @@ export const translations = {
     actions: 'Actions',
     status: 'Status',
     
-    // Item Form
     placeholderSku: 'e.g., ST-A4-001',
     placeholderName: 'e.g., A4 Paper 80gsm',
     placeholderDesc: 'Describe the inventory item...',
@@ -116,7 +110,6 @@ export const translations = {
     requiredField: 'This field is required',
     skuExists: 'SKU code already exists in inventory',
     
-    // Stock In/Out
     stockIn: 'Stock In',
     stockOut: 'Stock Out',
     remarks: 'Remarks / Notes',
@@ -127,7 +120,6 @@ export const translations = {
     stockSuccess: 'Stock movement successfully updated!',
     insufficientStock: 'Cannot record stock-out: Insufficient inventory',
     
-    // General Actions
     confirmDelete: 'Are you sure you want to delete this item? This action is permanent and will delete all associated stock history.',
     date: 'Date & Time',
     type: 'Type',
@@ -148,17 +140,15 @@ export const translations = {
     en: 'English (EN)',
     bm: 'Bahasa Melayu (BM)',
     
-    // Login
     loginTitle: 'Selamat Datang ke StokKitani',
     loginSubtitle: 'Urus stok, pantau pergerakan, dan sentiasa bersedia dengan sistem inventori mudah yang direka untuk perniagaan kecil.',
     email: 'Alamat Emel',
     password: 'Kata Laluan',
     loginBtn: 'Log Masuk',
     demoAccount: 'Butiran Akaun Demo',
-    demoNote: 'Sila gunakan maklumat di bawah untuk log masuk bagi demonstrasi:',
+    demoNote: 'Gunakan maklumat di bawah untuk log masuk secara tempatan:',
     invalidCredentials: 'Emel atau kata laluan tidak sah',
     
-    // Dashboard Summary
     summaryTitle: 'Ringkasan',
     jumlahBarang: 'Jumlah Barang',
     barangStokRendah: 'Stok Rendah',
@@ -167,7 +157,6 @@ export const translations = {
     recentMovements: 'Pergerakan Stok Terkini',
     noRecentMovements: 'Tiada pergerakan stok direkodkan baru-baru ini.',
     
-    // Items
     itemsList: 'Senarai Inventori',
     addItem: 'Tambah Barang Baru',
     editItem: 'Kemas Kini Barang',
@@ -188,7 +177,6 @@ export const translations = {
     bulkDeleteConfirm: 'Adakah anda pasti mahu memadam {count} barang yang dipilih? Tindakan ini adalah kekal dan akan memadamkan seluruh sejarah aliran stok berkaitan.',
     selectedItems: '{count} barang dipilih',
     
-    // Table Columns
     sku: 'SKU',
     itemName: 'Nama Barang',
     category: 'Kategori',
@@ -200,7 +188,6 @@ export const translations = {
     actions: 'Tindakan',
     status: 'Status',
     
-    // Item Form
     placeholderSku: 'cth., ST-A4-001',
     placeholderName: 'cth., Kertas A4 80gsm',
     placeholderDesc: 'Huraikan barang inventori ini...',
@@ -210,7 +197,6 @@ export const translations = {
     requiredField: 'Ruangan ini wajib diisi',
     skuExists: 'Kod SKU sudah wujud dalam inventori',
     
-    // Stock In/Out
     stockIn: 'Stok Masuk',
     stockOut: 'Stok Keluar',
     remarks: 'Nota / Catatan',
@@ -221,7 +207,6 @@ export const translations = {
     stockSuccess: 'Pergerakan stok berjaya dikemas kini!',
     insufficientStock: 'Tidak dapat merekod stok keluar: Baki stok tidak mencukupi',
     
-    // General Actions
     confirmDelete: 'Adakah anda pasti mahu memadam barang ini? Tindakan ini adalah kekal dan akan memadamkan semua sejarah stok yang berkaitan.',
     date: 'Tarikh & Masa',
     type: 'Jenis',

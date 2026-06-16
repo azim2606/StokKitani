@@ -24,9 +24,7 @@ export default function Navbar({
 
   return (
     <>
-      {/* 1. DESKTOP SIDEBAR (Matches the 'Professional Polish' Design HTML theme) */}
       <aside className="hidden md:flex w-64 bg-[#111827] text-white flex-col h-screen sticky top-0 border-r border-gray-800 shrink-0">
-        {/* Logo and Brand Title with Gold Highlight box */}
         <div className="p-6 flex items-center gap-3 border-b border-white/10">
           <div className="w-10 h-10 bg-[#C9A227] rounded-lg flex items-center justify-center shadow-lg">
             <svg
@@ -49,12 +47,11 @@ export default function Navbar({
               Stok<span className="text-[#C9A227]">Kitani</span>
             </span>
             <span className="text-[10px] font-medium text-gray-400 uppercase tracking-widest block -mt-0.5">
-              {language === "en" ? "Brunei SME System" : "Sistem PKS Brunei"}
+              {language === "en" ? "Inventory System" : "Sistem Inventori"}
             </span>
           </div>
         </div>
 
-        {/* Sidebar Navigation Links */}
         <nav className="flex-1 p-4 space-y-2">
           {[
             { id: "dashboard", label: t.navDashboard, icon: Layers },
@@ -81,7 +78,6 @@ export default function Navbar({
           })}
         </nav>
 
-        {/* Language Quick Toggle in Sidebar for extra utility */}
         <div className="px-4 py-2 border-t border-white/5">
           <button
             id="sidebar-lang-toggle"
@@ -97,7 +93,6 @@ export default function Navbar({
           </button>
         </div>
 
-        {/* Sidebar Logged-in Admin User Profile metadata footer */}
         <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center font-bold text-white shadow-inner uppercase border border-gray-600">
@@ -107,7 +102,6 @@ export default function Navbar({
               <p className="text-sm font-semibold text-white truncate">{userName}</p>
               <p className="text-xs text-gray-400 truncate">{userEmail}</p>
             </div>
-            {/* Quick logout tab link */}
             <button
               id="sidebar-logout-btn"
               onClick={onLogout}
@@ -120,10 +114,8 @@ export default function Navbar({
         </div>
       </aside>
 
-      {/* 2. MOBILE HEADER BAR */}
       <header className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white shadow-xs md:hidden shrink-0">
         <div className="flex h-16 items-center justify-between px-4 sm:px-6">
-          {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#111827] shadow-xs">
               <svg
@@ -146,7 +138,6 @@ export default function Navbar({
             </span>
           </div>
 
-          {/* Controls */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => setLanguage(language === "en" ? "bm" : "en")}
@@ -166,7 +157,6 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Mobile Tab menu drawer overlay */}
         <div className="flex border-t border-gray-100 bg-white">
           {[
             { id: "dashboard", label: t.navDashboard, icon: Layers },

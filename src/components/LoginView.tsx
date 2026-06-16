@@ -34,7 +34,6 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
         throw new Error(data.error || "Login validation failed");
       }
 
-      // Success callback
       onLoginSuccess(data.token, data.user);
     } catch (err: any) {
       setError(err.message || t.invalidCredentials);
@@ -45,12 +44,8 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
 
   return (
     <div className="flex min-h-screen bg-app-bg text-brand-dark animate-fade-in">
-      {/* 1. Left Side Column (Decorative Branding Info Screen) */}
       <div className="relative hidden w-1/2 flex-col justify-between bg-brand-dark p-12 text-white lg:flex">
-        {/* Background Subtle Gradient Glow circles */}
         <div className="absolute inset-0 bg-radial-at-t from-gray-800 via-brand-dark to-brand-dark opacity-90" />
-        
-        {/* Top brand header */}
         <div className="relative z-10 flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 backdrop-blur-md">
             <svg
@@ -73,11 +68,10 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
           </span>
         </div>
 
-        {/* Branding Slogans */}
         <div className="relative z-10 my-auto max-w-md space-y-4">
           <div className="inline-flex items-center gap-1 bg-brand-gold/20 text-brand-gold text-xs font-bold px-3 py-1 rounded-full border border-brand-gold/30">
             <Star className="h-3 w-3 fill-brand-gold" />
-            <span>{language === "en" ? "Brunei SME Exclusive" : "Khas untuk PKS Brunei"}</span>
+            <span>{language === "en" ? "Inventory Management" : "Pengurusan Inventori"}</span>
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight leading-tight">
             {t.appName}
@@ -87,7 +81,6 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
           </p>
         </div>
 
-        {/* Footer info containing localized help info */}
         <div className="relative z-10 border-t border-white/10 pt-6">
           <span className="text-xs font-semibold text-gray-400">
             {language === 'en' 
@@ -97,9 +90,7 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
         </div>
       </div>
 
-      {/* 2. Right Side Column (Interactive Credentials Card Form) */}
       <div className="flex w-full flex-col justify-center px-6 py-12 lg:w-1/2 sm:px-12 xl:px-24">
-        {/* Mobile top header branding */}
         <div className="mx-auto w-full max-w-sm lg:hidden mb-8">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-dark text-brand-gold shadow-md">
@@ -124,14 +115,12 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
           </div>
         </div>
 
-        {/* Main form card container */}
         <div className="mx-auto w-full max-w-md">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black tracking-tight text-brand-dark sm:text-3xl">
               {t.loginTitle}
             </h2>
             
-            {/* Bilingual instant toggle link */}
             <button
               onClick={() => setLanguage(language === "en" ? "bm" : "en")}
               className="text-xs font-extrabold text-[#C9A227] hover:underline"
@@ -143,7 +132,6 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
             {language === "en" ? "Please sign in to access inventory dashboard." : "Sila log masuk untuk mengakses papan pemuka inventori."}
           </p>
 
-          {/* Form frame */}
           <form onSubmit={handleLoginSubmit} className="mt-8 space-y-5">
             {error && (
               <div className="flex items-start gap-2.5 rounded-xl bg-red-50 p-3.5 text-xs font-bold text-red-700 border border-red-100">
@@ -152,7 +140,6 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
               </div>
             )}
 
-            {/* Email input field */}
             <div>
               <label className="block text-xs font-bold text-gray-700 mb-1.5">
                 {t.email}
@@ -171,7 +158,6 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
               </div>
             </div>
 
-            {/* Password input field */}
             <div>
               <label className="block text-xs font-bold text-gray-700 mb-1.5">
                 {t.password}
@@ -190,7 +176,6 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
               </div>
             </div>
 
-            {/* Submit Login Button */}
             <button
               id="login-submit-btn"
               type="submit"
@@ -201,7 +186,6 @@ export default function LoginView({ onLoginSuccess, language, setLanguage }: Log
             </button>
           </form>
 
-          {/* Test Account Note Widget boxes */}
           <div className="mt-8 rounded-2xl border border-amber-200 bg-amber-50/50 p-4 shadow-3xs space-y-2">
             <h4 className="text-xs font-extrabold text-amber-800 flex items-center gap-1.5">
               <span>{t.demoAccount}</span>
